@@ -1,0 +1,13 @@
+fos_rest:
+  body_converter:
+    enabled: true
+    validate: true
+    validation_errors_argument: violations
+
+  view:
+    mime_types:
+      json: ['application/json', 'application/json;version=1.0', 'application/json;version=2.0']
+    formats: { json: true, xml: false, rss: false }
+
+  serializer:
+    serialize_null: true
