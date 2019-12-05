@@ -1,0 +1,9 @@
+App\Entity\Brand:
+  b1:
+    name: Apple
+  b2:
+    name: Samsung
+  b3:
+    name: Huawaï
+  b4:
+    name: Xiaomi
