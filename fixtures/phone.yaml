@@ -1,0 +1,211 @@
+App\Entity\Phone:
+  p1:
+    model: S6
+    brand: "@b2"
+    price: 350
+    description: 'Le design délicat du Galaxy S6 est le fruit de nombreuses heures de recherche et de développement
+     méticuleux de nos créateurs passionnés. Serti de métal, habillé de verre, et galbé à la perfection, le Galaxy S6
+     a été façonné avec soin pour un résultat à couper le souffle.
+
+      Parce que sa perfection ne se limite pas à ses lignes, nos ingénieurs
+       et ergonomes ont concentré tout leur savoir-faire au cœur du Galaxy S6: son
+        interface épurée et intuitive vous permet de profiter de performances inégalées.'
+    color: blue
+    stock: 9
+
+  p2:
+    model: S7
+    brand: "@b2"
+    price: 400
+    description: 'Avec les Galaxy S7 et S7 edge, nous avons transformé la manière de vivre et partager vos
+    meilleures expériences. Plongez dans une toute nouvelle dimension et dépassez vos limites.'
+    color: black
+    stock: 6
+
+  p3:
+    model: S8
+    brand: "@b2"
+    price: 450
+    description: 'Le Samsung Galaxy S8, dernier fleuron du constructeur coréen, est désormais la nouvelle référence
+    des smartphones Android. Respectivement aux formats de 5,8 et 6,2 pouces, le Galaxy S8 et Galaxy S8+ sont équipés
+     d’un écran Infinity Display qui recouvre la quasi-totalité de la surface pour une expérience visuelle incomparable!
+      L’appareil photo de 12 mégapixels et frontal de 8 mégapixels vous permettront de filmer en 4K et de réaliser des
+      clichés et portraits sublimes même en conditions de nuit. La sécurité est également mise à l’honneur '
+    color: white
+    stock: 10
+
+  p4:
+    model: S9
+    brand: "@b2"
+    price: 500
+    description: 'Le Samsung Galaxy S9 a été annoncé le 25 février 2018 par Samsung. Il dispose
+     dun écran 5,8 pouces Super Amoled HDR, dun SoC Exynos 9810 et dun capteur photo arrière stabilisé
+      à double ouverture mécanique.'
+    color: blue
+    stock: 17
+
+  p5:
+    model: S10
+    brand: "@b2"
+    price: 600
+    description:  'Le Samsung Galaxy S10 est le flagship de Samsung pour 2019. Il est équipé dun SoC Samsung
+      Exynos 9820 gravé en 8 nm, dun triple capteur et dun nouvel écran sans bord avec la caméra logée dans une bulle.'
+    color: black
+    stock: 10
+
+  p6:
+    model: Iphone X
+    brand: "@b1"
+    price: 400
+    description: ' Nous avons toujours rêvé de créer un iPhone qui ne
+    soit qu’écran. Un iPhone si immersif qu’il s’efface au profit de la seule expérience.
+     Un iPhone si intelligent qu’il réponde à un geste, à la voix… et même à un regard. C’est chose faite aujourd’hui.
+     Dites bonjour au futur.'
+    color: black
+    stock: 15
+
+  p7:
+    model: Iphone XS
+    brand: "@b1"
+    price: 450
+    description: 'L’iPhone XS détient un écran Super Retina de 5,8 pouces et l’iPhone XS Max un écran de 6,5 pouces
+    avec des panneaux OLED créés spécialement, pour un affichage HDR offrant des couleurs d’une qualité supérieure.
+    La technologie Face ID avancée vous permet de déverrouiller votre téléphone portable, de vous connecter à des apps
+     et de régler vos achats instantanément.'
+    color: white
+    stock: 12
+
+  p8:
+    model: iphone xr
+    brand: "@b2"
+    price: 350
+    description: 'Découvrez le nouvel iPhone Xr doté d’un écran LCD bord à bord 6,1 pouces « Liquid Retina »
+     1792x828 (326 ppi). Son système de rétroéclairage innovant prolonge l’écran jusque dans les angles.
+      Avec un corps en aluminium, un dos en verre ainsi qu’un large choix de couleurs : bleu, noir, rouge, corail
+      et jaune, rouge, l’iPhone Xr saura vous séduire sous tous ses modèles. Le téléphone détient également un FaceID
+      développé, un processeur A12 Bionic avec une mémoire de 64 Go'
+    color: blue
+    stock: 11
+
+  p9:
+    model: iphone 8
+    brand: "@b2"
+    price: 300
+    description: 'Les iPhone 8 et 8 Plus, lancés pour la première fois en 2017, n’est plus le porte étendard dApple,
+    ayant été remplacés par les iPhone XS, XS Max et Iphone XR. Apple continue cependant à commercialiser les modèles
+     iPhone 8 à un coût moindre. Malgré cela, le smartphone de la firme américaine reste un téléphone fiable avec une
+     résolution d’image élevée. LiPhone 8 dApple utilise un écran LCD au lieu dOLED mais il prend toujours de très
+                   belles photos et des vidéos 4K'
+    color: blue
+    stock: 10
+
+  p10:
+    model: Iphone 11
+    brand: "@b2"
+    price: 600
+    description: 'iPhone 11. Double appareil photo avec ultra grand‑angle et mode Nuit. Autonomie dune journée.
+    Six coloris. Puce A13 Bionic, la plus rapide à ce jour.'
+    color: black
+    stock: 19
+
+  p11:
+    model: p20
+    brand: "@b3"
+    price: 350
+    description: 'Combinant un double module caméra de 12 mégapixels et 20 mégapixels à larrière et un capteur frontal
+     de 24 mégapixels, le Huawei P20 pas cher commercialisé chez Cdiscount réalise des photos sensationnelles !
+      Équipé dun écran LCD de 5,8 pouces au format 19:9, du processeur Kirin 970 (2,36 GHz) et d’une mémoire vive de 4
+      Go, ce Smartphone offre un grand confort d’utilisation'
+    color: blue
+    stock: 10
+
+  p12:
+    model: p20 pro
+    brand: "@b3"
+    price: 400
+    description: 'Le Huawei P20 Pro est la version grand format du nouveau flagship de Huawei annoncé le 27 Mars 2018
+    à Paris. Il dispose dun SoC Kirin 970 et dun triple capteur photo arrière de 40+20+8 mégapixels et dun écran
+    borderless AMOLED de 6,1 pouces.'
+    color: black
+    stock: 17
+
+  p13:
+    model: p30
+    brand: "@b3"
+    price: 450
+    description: ' Le Huawei P30 a été annoncé le 26 mars 2019. Équipé dune puce Kirin 980, il dispose dun triple
+     capteur photo à son dos, dun SoC Kirin 980 et dun écran de 6,1 pouces borderless avec une petite encoche.'
+    color: red
+    stock: 14
+
+  p14:
+    model: p30 pro
+    brand: "@b3"
+    price: 500
+    description: 'Le HUAWEI P30 Pro gravit de nouveaux sommets dans lunivers de la photographie sur smartphone.
+    Zoomez comme jamais auparavant et perdez ainsi la notion de distance, capturez clairement la nuit grâce à un
+     nouveau mode nuit révolutionnaire, et photographiez avec un niveau de détail jamais atteint'
+    color: yellow
+    stock: 11
+
+  p15:
+    model: p30 lite
+    brand: "@b3"
+    price: 460
+    description: 'Après dexcellents P30 et P30 Pro, Huawei revient avec une version allégée. Moins ambitieux, ce P30
+    Lite se distingue par une fiche technique solide portée par un design premium. De quoi en faire un terminal
+    particulièrement intéressant sur le papier. Dautant plus quil semble afficher quelques prétentions du côté de
+    la photo avec son triple module arrière, dirigé par le fameux capteur de 48 Mpx. '
+    color: white
+    stock: 17
+
+  p16:
+    model: MI 9T
+    brand: "@b4"
+    price: 330
+    description: 'Le Xiaomi Mi 9T, aussi appelé Xiaomi Redmi K20, est un smartphone milieu de gamme annoncé par Xiaomi
+    en mai 2019. Proposant une solution plus abordable que le K20 Pro, il est équipé dun SoC Qualcomm Snapdragon 730
+    épaulé par 6 ou 8 Go de RAM, dun écran AMOLED de 6,39 pouces et dune batterie de 4000 mAh'
+    color: blue
+    stock: 10
+
+  p17:
+    model: MI A3
+    brand: "@b4"
+    price: 250
+    description: 'Le Xiaomi Mi A3 est un smartphone de milieu de gamme annoncé en juillet 2019. Il tourne sous Android
+     9 Pie avec le label Android One, ce qui lui permet de profiter dune interface Android Pure. Il est également
+      équipé dun triple capteur dorsal avec ultra grand-angle, dun SoC Snapdragon 665 et dune batterie de 4040 mAh.'
+    color: black
+    stock: 20
+
+  p18:
+    model: Redmi Note 8
+    brand: "@b4"
+    price: 350
+    description: 'Le Xiaomi Redmi Note 8T, annoncé le 6 novembre 2019 en France, est la version française du Redmi
+     Note 8 avec une puce NFC et un chargeur rapide inclus en plus. Successeur du populaire Redmi Note 7, il est
+      équipé dun SoC Qualcomm Snapdragon 665, dun écran de 6,3 pouces Full HD+, de 4 caméras dorsales dont une de
+                   48 mégapixels et dune batterie de 4000 mAh.'
+    color: red
+    stock: 16
+
+  p19:
+    model: Redmi Note 7
+    brand: "@b4"
+    price: 650
+    description: 'Découvrez le smartphone le plus puissant de la gamme Redmi : Le Redmi Note 7. Equipé d’une
+    double caméra arrière de 48 + 5 Mégapixels, capturez des images avec une incroyable qualité, et cela même
+    en cas de faible luminosité. '
+    color: pink
+    stock: 10
+
+  p20:
+    model: MI 9
+    brand: "@b4"
+    price: 350
+    description: ' Le Xiaomi Mi 9 est un smartphone haut de gamme annoncé par Xiaomi le 24 février 2019. Il est équipé
+    dun SoC Snapdragon 855, dun triple capteur photo, dun écran AMOLED de 6,39 pouces et
+    dune batterie de 3500 mAh compatible Qi.'
+    color: blue
+    stock: 13
