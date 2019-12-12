@@ -3,9 +3,21 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as Serializer;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PhoneRepository")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href=@Hateoas\Route(
+ *     "app_phone_show",
+ *     parameters={"id" = "expr(object.getId())"},
+ *     absolute=true
+ *     )
+ * )
  */
 class Phone
 {
@@ -18,33 +30,54 @@ class Phone
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Serializer\Since("1.0")
+     * @Serializer\Expose
+     *
      */
     private $model;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $mark;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
+     *
+     * @Serializer\Since("1.0")
+     * @Serializer\Expose
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Serializer\Since("1.0")
+     * @Serializer\Expose
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Serializer\Since("1.0")
+     * @Serializer\Expose
      */
     private $color;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Serializer\Since("1.0")
+     * @Serializer\Expose
      */
     private $stock;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Brand", inversedBy="phones")
+     * @ORM\JoinColumn(nullable=false)
+     *
+     * @Serializer\Since("1.0")
+     * @Serializer\Expose
+     */
+    private $brand;
 
     public function getId(): ?int
     {
@@ -63,17 +96,6 @@ class Phone
         return $this;
     }
 
-    public function getMark(): ?string
-    {
-        return $this->mark;
-    }
-
-    public function setMark(string $mark): self
-    {
-        $this->mark = $mark;
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {
@@ -119,6 +141,18 @@ class Phone
     public function setStock(int $stock): self
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getBrand(): ?Brand
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(?Brand $brand): self
+    {
+        $this->brand = $brand;
 
         return $this;
     }
