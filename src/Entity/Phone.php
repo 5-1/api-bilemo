@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PhoneRepository")
+ * @ORM\Table()
  *
  * @Hateoas\Relation(
  *     "self",
@@ -25,6 +26,9 @@ class Phone
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Serializer\Since("1.0")
+     * @Serializer\Groups({"list"})
      */
     private $id;
 

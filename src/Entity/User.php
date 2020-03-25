@@ -5,25 +5,59 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
 use JMS\Serializer\Annotation as Serializer;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href=@Hateoas\Route(
+ *     "app_user_show",
+ *     parameters={"id" = "expr(object.getId())"},
+ *     absolute=true
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "modify",
+ *     href=@Hateoas\Route(
+ *     "app_user_update",
+ *     parameters={"id" = "expr(object.getId())"},
+ *     absolute=true
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href=@Hateoas\Route(
+ *     "app_user_delete",
+ *     parameters={"id" = "expr(object.getId())"},
+ *     absolute=true
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "customer",
+ *     embedded = @Hateoas\Embedded("expr(object.getUser())")
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Serializer\Expose
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     *
      * @Assert\NotBlank(message="Username cannot be blank")
      * @Assert\Length(
      *      min="5",
@@ -37,7 +71,12 @@ class User
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     *
+     * @Assert\NotBlank(message="Email cannot be null")
+     * @Assert\Email(
+     *     message="The email '{{ value }}' is not a valid email"
+     * )
      */
     private $email;
 
@@ -51,10 +90,30 @@ class User
      */
     private $second_name;
 
+
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="User")
+     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $customers;
+
+    /**
+     * @ORM\Column(type="json")
+     *
+     */
+    private $roles;
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
 
     public function __construct()
     {
@@ -110,6 +169,75 @@ class User
     public function setSecondName(string $second_name): self
     {
         $this->second_name = $second_name;
+
+        return $this;
+    }
+
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPassword()
+    {
+        return (string) $this->password;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
