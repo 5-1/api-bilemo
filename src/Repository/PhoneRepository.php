@@ -1,50 +1,50 @@
 <?php
 
-namespace App\Repository;
 
+namespace App\Repository;
 use App\Entity\Phone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
 /**
- * @method Phone|null find($id, $lockMode = null, $lockVersion = null)
- * @method Phone|null findOneBy(array $criteria, array $orderBy = null)
- * @method Phone[]    findAll()
- * @method Phone[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * Class PhoneRepository.
  */
-class PhoneRepository extends ServiceEntityRepository
+class PhoneRepository  extends ServiceEntityRepository
 {
+   use QueryPaginatorTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Phone::class);
     }
 
-    // /**
-    //  * @return Phone[] Returns an array of Phone objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Phone
+    /**
+     * @param $term
+     * @param string $order
+     * @param int    $maxPerPage
+     * @param int    $offset
+     *
+     * @return \Pagerfanta\Pagerfanta
+     */
+    public function search($term, $order = 'asc', $maxPerPage = 5, $offset  = 0)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->createQueryBuilder('p')
+            ->select('p')
+            ->innerJoin('p.brand', 'b')
+            ->orderBy('p.id', $order);
+        if (!empty($term)) {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('p.name', ':term'),
+                    $qb->expr()->like('b.name', ':term')
+                )
+            )
+                ->setParameter('term', '%'.$term.'%');
+        }
+        return $this->paginate($qb, $maxPerPage, $offset);
     }
-    */
 }

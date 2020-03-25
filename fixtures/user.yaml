@@ -1,0 +1,64 @@
+App\Entity\User:
+  u1:
+    username: user1
+    email: 'vlad@russia.com'
+    first_name: 'Vladimir'
+    second_name: 'Noriski'
+    plainPassword: 'u1'
+    roles: ['ROLE_USER']
+  u2:
+    username: user2
+    email: 'mario@italia.com'
+    first_name: 'mario'
+    second_name: 'pastini'
+    plainPassword: 'u2'
+    roles: ['ROLE_USER']
+
+
+  u3:
+    username: user3
+    email: 'marco@espagna.com'
+    first_name: 'marco'
+    second_name: 'palu'
+    plainPassword: 'u3'
+    roles: ['ROLE_USER']
+
+
+  u4:
+    username: user4
+    email: 'jean@france.com'
+    first_name: 'jean'
+    second_name: 'francois'
+    plainPassword: 'u4'
+    roles: ['ROLE_USER']
+
+
+App\Entity\Customer:
+
+  c1:
+    username: customer1
+    email: 'alexis@russia.com'
+    first_name: 'Alexis'
+    second_name: 'Noriski'
+    user: '@u1'
+  c2:
+    username: customer2
+    email: 'luigi@italia.com'
+    first_name: 'luigi'
+    second_name: 'pastini'
+    user: '@u2'
+
+  c3:
+    username: customer3
+    email: 'marco@espagna.com'
+    first_name: 'marco'
+    second_name: 'palu'
+    user: '@u3'
+
+  c4:
+    username: customer4
+    email: 'david@france.com'
+    first_name: 'david'
+    second_name: 'francois'
+    user: '@u1'
+
