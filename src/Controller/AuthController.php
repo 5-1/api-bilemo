@@ -2,37 +2,58 @@
 
 namespace App\Controller;
 
+use App\Exception\ResourceValidationException;
+use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
+use FOS\RestBundle\Controller\Annotations as Rest;
+
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class AuthController extends AbstractController
 {
     /**
-     * @Rest\Get(
+     * @Rest\Post(
      *     path="/api/register",
      *     name="app_register")
-     * @param Request $request
+     * @Rest\View(statusCode=201)
+     * @ParamConverter(
+     *     "user",
+     *      converter="fos_rest.request_body",
+     *      options={
+     *         "validator"={"groups"="create"}
+     *     }
+     * )
+     * @param User $user
+     * @param ConstraintViolationListInterface $violations
      * @param UserPasswordEncoderInterface $encoder
-     * @return Response
+     * @return User
+     * @throws ResourceValidationException
      */
-    public function register(Request $request, UserPasswordEncoderInterface $encoder)
+    public function register(User $user, ConstraintViolationListInterface $violations, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
     {
-        $em = $this->getDoctrine()->getManager();
+        if (count($violations) > 0) {
+            $message = 'The JSON sent contains invalid data. Here are the errors you need to correct: ';
+            foreach ($violations as $violation) {
+                $message .= sprintf('Field %s: %s ', $violation->getPropertyPath(), $violation->getMessage());
+            }
 
-        $username = $request->request->get('_username');
-        $password = $request->request->get('_password');
+            throw new ResourceValidationException($message);
+        }
 
-        $user = new User($username);
-        $user->setPassword($encoder->encodePassword($user, $password));
+        $user->setPassword($encoder->encodePassword($user, $user->getPlainPassword()));
+        $user->setRoles(['ROLE_USER']);
+
         $em->persist($user);
         $em->flush();
 
-        return new Response(sprintf('User %s successfully created', $user->getUsername()));
-    }
 
+        return $user;
+    }
 
 
     public function login(Request $request)
