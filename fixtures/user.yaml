@@ -36,27 +36,23 @@ App\Entity\User:
 App\Entity\Customer:
 
   c1:
-    username: customer1
     email: 'alexis@russia.com'
     first_name: 'Alexis'
     second_name: 'Noriski'
     user: '@u1'
   c2:
-    username: customer2
     email: 'luigi@italia.com'
     first_name: 'luigi'
     second_name: 'pastini'
     user: '@u2'
 
   c3:
-    username: customer3
     email: 'marco@espagna.com'
     first_name: 'marco'
     second_name: 'palu'
     user: '@u3'
 
   c4:
-    username: customer4
     email: 'david@france.com'
     first_name: 'david'
     second_name: 'francois'
