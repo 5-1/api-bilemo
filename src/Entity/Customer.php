@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,7 +10,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
- * @Serializer\ExclusionPolicy("all")
+
  */
 class Customer
 {
@@ -20,37 +18,35 @@ class Customer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     */
+     * @Serializer\Groups({"create","show","list"})
+   */
     private $id;
 
-    /**
-     *
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Username cannot be blank")
-     * @Assert\Length(
-     *     groups={"create"},
-     *      min="5",
-     *     max="12",
-     *     minMessage="The username must be at least {{ limit }} characters long",
-     *     maxMessage="The username cannot be longer than {{ limit }} characters"
-     * )
-     *
-     * @Serializer\Expose
-     */
-    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Email cannot be null")
+     * @Serializer\Groups({"create","show"})
+     * @Assert\Email(groups={"create"},
+     *     message="The email '{{ value }}' is not a valid email")
+     *
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(groups={"create"})
+     * @Assert\Length(min="1", groups={"create"})
+     * @Serializer\Groups({"create","show","list"})     *
      */
     private $first_name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(groups={"create"})
+     * @Assert\Length(min="1", groups={"create"})
+     * @Serializer\Groups({"create","show","list"})
+     *
      */
     private $second_name;
 
@@ -65,17 +61,6 @@ class Customer
         return $this->id;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
 
     public function getEmail(): ?string
     {
@@ -124,8 +109,5 @@ class Customer
 
         return $this;
     }
-
-
-
 
 }

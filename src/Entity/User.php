@@ -14,35 +14,8 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * @Hateoas\Relation(
- *     "self",
- *     href=@Hateoas\Route(
- *     "app_user_show",
- *     parameters={"id" = "expr(object.getId())"},
- *     absolute=true
- *     )
- * )
- *
- * @Hateoas\Relation(
- *     "modify",
- *     href=@Hateoas\Route(
- *     "app_user_update",
- *     parameters={"id" = "expr(object.getId())"},
- *     absolute=true
- *     )
- * )
- *
- * @Hateoas\Relation(
- *     "delete",
- *     href=@Hateoas\Route(
- *     "app_user_delete",
- *     parameters={"id" = "expr(object.getId())"},
- *     absolute=true
- *     )
- * )
- *
- * @Hateoas\Relation(
  *     "customer",
- *     embedded = @Hateoas\Embedded("expr(object.getUser())")
+ *     embedded = @Hateoas\Embedded("expr(object.getCustomers())")
  * )
  */
 class User implements UserInterface
@@ -51,7 +24,6 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Serializer\Expose
      */
     private $id;
 
@@ -60,13 +32,13 @@ class User implements UserInterface
      *
      * @Assert\NotBlank(message="Username cannot be blank")
      * @Assert\Length(
+     *     groups={"create"},
      *      min="5",
      *     max="12",
      *     minMessage="The username must be at least {{ limit }} characters long",
      *     maxMessage="The username cannot be longer than {{ limit }} characters"
      * )
      *
-     * @Serializer\Expose
      */
     private $username;
 
@@ -81,12 +53,13 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
      */
     private $first_name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $second_name;
 
@@ -94,7 +67,6 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $customers;
 
@@ -118,6 +90,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->customers = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId(): ?int
@@ -201,7 +174,7 @@ class User implements UserInterface
      */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        // using algorithm in security.yaml
     }
 
     /**
@@ -213,9 +186,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getPlainPassword(): string
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
@@ -245,7 +218,7 @@ class User implements UserInterface
     /**
      * @return Collection|Customer[]
      */
-    public function getCustomers(): Collection
+    public function getCustomers(): ?Collection
     {
         return $this->customers;
     }

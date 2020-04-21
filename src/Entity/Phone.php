@@ -28,7 +28,7 @@ class Phone
      * @ORM\Column(type="integer")
      *
      * @Serializer\Since("1.0")
-     * @Serializer\Groups({"list"})
+     * @Serializer\Groups({"list","show"})
      */
     private $id;
 
@@ -36,7 +36,7 @@ class Phone
      * @ORM\Column(type="string", length=255)
      *
      * @Serializer\Since("1.0")
-     * @Serializer\Expose
+     * @Serializer\Groups({"list","show"})
      *
      */
     private $model;
@@ -44,25 +44,22 @@ class Phone
 
     /**
      * @ORM\Column(type="text")
-     *
+     * @Serializer\Groups({"show"})
      * @Serializer\Since("1.0")
-     * @Serializer\Expose
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
+     * @Serializer\Groups({"show"})
      * @Serializer\Since("1.0")
-     * @Serializer\Expose
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
+     * @Serializer\Groups({"show"})
      * @Serializer\Since("1.0")
-     * @Serializer\Expose
      */
     private $color;
 
@@ -70,7 +67,8 @@ class Phone
      * @ORM\Column(type="integer")
      *
      * @Serializer\Since("1.0")
-     * @Serializer\Expose
+     * @Serializer\Groups({"list"})
+     * @Serializer\Groups({"show","list"})
      */
     private $stock;
 
@@ -79,7 +77,7 @@ class Phone
      * @ORM\JoinColumn(nullable=false)
      *
      * @Serializer\Since("1.0")
-     * @Serializer\Expose
+     * @Serializer\Groups({"show"})
      */
     private $brand;
 
