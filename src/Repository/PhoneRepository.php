@@ -26,11 +26,11 @@ class PhoneRepository  extends ServiceEntityRepository
      * @param $term
      * @param string $order
      * @param int    $maxPerPage
-     * @param int    $offset
+     * @param int    $page
      *
      * @return \Pagerfanta\Pagerfanta
      */
-    public function search($term, $order = 'asc', $maxPerPage = 5, $offset  = 0)
+    public function search($term, $order = 'asc', $maxPerPage = 5, $page  =1)
     {
         $qb = $this->createQueryBuilder('p')
             ->select('p')
@@ -45,6 +45,6 @@ class PhoneRepository  extends ServiceEntityRepository
             )
                 ->setParameter('term', '%'.$term.'%');
         }
-        return $this->paginate($qb, $maxPerPage, $offset);
+        return $this->paginate($qb, $maxPerPage, $page);
     }
 }
