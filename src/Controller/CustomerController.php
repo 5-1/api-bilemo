@@ -23,6 +23,7 @@ class CustomerController extends AbstractFOSRestController
      * @param CustomerRepository $customerRepository
      * @return Customers
      *
+
      * @Rest\Get("/api/customers", name="app_customer_list")
      *
      *
@@ -35,12 +36,15 @@ class CustomerController extends AbstractFOSRestController
      * @Rest\QueryParam(
      *     name="order",
      *     requirements="asc|desc",
+
      *     default="asc",
+
      *     description="Sort order (asc or desc)."
      * )
      * @Rest\QueryParam(
      *     name="limit",
      *     requirements="\d+",
+
      *     default=10,
      *     description="Max number of results per page."
      * )
@@ -49,12 +53,14 @@ class CustomerController extends AbstractFOSRestController
      *     nullable=true,
      *     requirements="\d+",
      *     default=1,
+
      *     description="The pagination offset"
      * )
      *
-     * @Rest\View(
+
      *     statusCode=200,
      *     serializerGroups={"list"}
+
      * )
      */
     public function list(ParamFetcherInterface $paramFetcher, CustomerRepository $customerRepository)
@@ -66,21 +72,26 @@ class CustomerController extends AbstractFOSRestController
             $paramFetcher->get('keyword'),
             $paramFetcher->get('order'),
             $paramFetcher->get('limit'),
+
             $paramFetcher->get('page')
             );
 
         $representation = new Customers($pager);
         return $representation;
+
     }
 
     /**
      * @Rest\Get(
+
      *     path = "/api/customers/{id}",
      *     name = "app_customer_show",
+
      *     requirements = {"id"="\d+"}
      * )
      *
      * @Rest\View(
+
      *     statusCode=200,
      *     serializerGroups={"show"}
      * )
@@ -90,6 +101,7 @@ class CustomerController extends AbstractFOSRestController
     public function show(Customer$customer)
     {
         return $customer;
+
     }
 
 
@@ -103,19 +115,25 @@ class CustomerController extends AbstractFOSRestController
      * @throws ResourceValidationException
      * @Rest\Post(
      *     path = "/api/customers",
+
      *     name = "app_customer_create",
      * )
+
      * @ParamConverter(
      *     "customer",
      *      converter="fos_rest.request_body",
      *      options={
+
      *         "validator"={"groups"={"create"}}
+
      *     }
      * )
      *
      * @Rest\View(
      *     statusCode=Response::HTTP_CREATED,
+
      *     serializerGroups={"create"}
+
      * )
      */
     public function create(Customer $customer, ConstraintViolationListInterface $violations)
@@ -132,7 +150,9 @@ class CustomerController extends AbstractFOSRestController
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $customer->setUser($user);
+
         $entityManager->persist($customer);
+
         $entityManager->flush();
 
         return $customer;
@@ -142,6 +162,7 @@ class CustomerController extends AbstractFOSRestController
      * @Rest\Delete(
      *     path = "/customers/{id}",
      *     name = "app_customer_delete",
+
      *     requirements = {"id"="\d+"}
      * )
      *
@@ -154,6 +175,7 @@ class CustomerController extends AbstractFOSRestController
         $this->denyAccessUnlessGranted('Delete', $customer);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($customer);
+
         $entityManager->flush();
 
         return new Response('Customer deleted', Response::HTTP_OK);

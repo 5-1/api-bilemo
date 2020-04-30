@@ -40,12 +40,15 @@ class PhoneController extends AbstractFOSRestController
      *     name="page",
      *     requirements="\d+",
      *     default="1",
+
      *     description="The pagination offset"
      * )
      *
      * @Rest\View(
+
      *     statusCode=200,
      *     serializerGroups={"list"}
+
      * )
      *
      */
@@ -61,6 +64,7 @@ class PhoneController extends AbstractFOSRestController
         $representation =  new Phones($pager);
         return $representation;
 
+
     }
 
 
@@ -74,6 +78,7 @@ class PhoneController extends AbstractFOSRestController
      * @Rest\View(
      *     statusCode=200,
      *     serializerGroups={"show"}
+
      * )
      */
     public function show(Phone $phone)

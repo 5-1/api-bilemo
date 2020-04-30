@@ -3,12 +3,14 @@
 namespace App\Representation;
 
 use JMS\Serializer\Annotation as Serializer;
+
 use Pagerfanta\Pagerfanta;
 use JMS\Serializer\Annotation\Type;
 class Phones
 {
     /**
      * @Type("array<App\Entity\Phone>")
+
      * @Serializer\Groups({"list"})
      */
     public $data;
@@ -16,6 +18,7 @@ class Phones
      * @Serializer\Groups({"list"})
      *
      */
+
     public $meta;
 
     public function __construct(Pagerfanta $data)
@@ -27,6 +30,7 @@ class Phones
         $this->addMeta('current_items', count($data->getCurrentPageResults()));
         $this->addMeta('total_items', $data->getNbResults());
         $this->addMeta('page', $data->getCurrentPage());
+
     }
     public function addMeta($name, $value)
     {
