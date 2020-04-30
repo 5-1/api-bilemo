@@ -1,3 +1,17 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+register:
+  path: /register
+  controller: App\Controller\AuthController::register
+  methods: POST
+
+api:
+  path: /api
+  controller: App\Controller\AuthController::api
+
+api_login_check:
+#  controller: App\Controller\SecurityController::index
+  path:   /api/login_check
+#  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+#    defaults:
+#      path: /api
+#      permanent: false
+#  methods:  POST

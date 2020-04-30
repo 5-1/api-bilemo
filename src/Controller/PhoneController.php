@@ -37,14 +37,18 @@ class PhoneController extends AbstractFOSRestController
      *     description="Max number of phone per page."
      * )
      * @Rest\QueryParam(
-     *     name="offset",
+     *     name="page",
      *     requirements="\d+",
-     *     default="0",
+     *     default="1",
+
      *     description="The pagination offset"
      * )
      *
      * @Rest\View(
-     *     statusCode=200
+
+     *     statusCode=200,
+     *     serializerGroups={"list"}
+
      * )
      *
      */
@@ -54,10 +58,12 @@ class PhoneController extends AbstractFOSRestController
             $paramFetcher->get('keyword'),
             $paramFetcher->get('order'),
             $paramFetcher->get('limit'),
-            $paramFetcher->get('offset')
+            $paramFetcher->get('page')
         );
 
-        return new Phones($pager);
+        $representation =  new Phones($pager);
+        return $representation;
+
 
     }
 
@@ -70,7 +76,9 @@ class PhoneController extends AbstractFOSRestController
      * )
      *
      * @Rest\View(
-     *     statusCode=200
+     *     statusCode=200,
+     *     serializerGroups={"show"}
+
      * )
      */
     public function show(Phone $phone)

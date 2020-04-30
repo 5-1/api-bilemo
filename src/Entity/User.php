@@ -5,15 +5,20 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
 use JMS\Serializer\Annotation as Serializer;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ *
+ * @Hateoas\Relation(
+ *     "customer",
+ *     embedded = @Hateoas\Embedded("expr(object.getCustomers())")
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -23,42 +28,69 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     *
      * @Assert\NotBlank(message="Username cannot be blank")
      * @Assert\Length(
+     *     groups={"create"},
      *      min="5",
      *     max="12",
      *     minMessage="The username must be at least {{ limit }} characters long",
      *     maxMessage="The username cannot be longer than {{ limit }} characters"
      * )
      *
-     * @Serializer\Expose
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     *
+     * @Assert\NotBlank(message="Email cannot be null")
+     * @Assert\Email(
+     *     message="The email '{{ value }}' is not a valid email"
+     * )
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
      */
     private $first_name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $second_name;
 
+
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="User")
+     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user")
      */
     private $customers;
+
+    /**
+     * @ORM\Column(type="json")
+     *
+     */
+    private $roles;
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
 
     public function __construct()
     {
         $this->customers = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId(): ?int
@@ -114,10 +146,79 @@ class User
         return $this;
     }
 
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPassword()
+    {
+        return (string) $this->password;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        // using algorithm in security.yaml
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Customer[]
      */
-    public function getCustomers(): Collection
+    public function getCustomers(): ?Collection
     {
         return $this->customers;
     }
