@@ -10,11 +10,13 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Swagger\Annotations as SWG;
+
 
 
 class CustomerController extends AbstractFOSRestController
@@ -38,6 +40,7 @@ class CustomerController extends AbstractFOSRestController
      *     name="order",
      *     requirements="asc|desc",
      *     default="asc",
+
      *     description="Sort order (asc or desc)."
      * )
      * @Rest\QueryParam(
@@ -82,6 +85,7 @@ class CustomerController extends AbstractFOSRestController
      *     )
      *
      * @SWG\Tag(name="Customer")
+
      */
     public function list(ParamFetcherInterface $paramFetcher, CustomerRepository $customerRepository)
     {
@@ -231,6 +235,7 @@ class CustomerController extends AbstractFOSRestController
         $user = $this->getUser();
         $customer->setUser($user);
         $entityManager->persist($customer);
+
         $entityManager->flush();
 
         return $customer;

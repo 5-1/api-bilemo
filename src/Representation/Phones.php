@@ -16,6 +16,7 @@ class Phones
      * @Serializer\Groups({"list"})
      *
      */
+
     public $meta;
 
     public function __construct(Pagerfanta $data)
@@ -27,6 +28,7 @@ class Phones
         $this->addMeta('current_items', count($data->getCurrentPageResults()));
         $this->addMeta('total_items', $data->getNbResults());
         $this->addMeta('page', $data->getCurrentPage());
+
     }
     public function addMeta($name, $value)
     {

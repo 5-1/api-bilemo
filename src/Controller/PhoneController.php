@@ -12,6 +12,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 
 
+
 class PhoneController extends AbstractFOSRestController
 {
     /**

@@ -34,6 +34,7 @@ class AuthController extends AbstractController
      * @param UserPasswordEncoderInterface $encoder
      * @return User
      * @throws ResourceValidationException
+
      *
      * @SWG\Response(
      *     response=201,
