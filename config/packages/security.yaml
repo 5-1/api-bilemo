@@ -29,6 +29,11 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
+        api_doc:
+            pattern: ^/api/doc
+            security: false
+            anonymous: true
+
         api:
             pattern: ^/api
             stateless: true
@@ -38,6 +43,8 @@ security:
                 authenticators:
 #                    - lexik_jwt_authentication.jwt_token_authentificator
                     - lexik_jwt_authentication.security.guard.jwt_token_authenticator
+
+
 
 
 

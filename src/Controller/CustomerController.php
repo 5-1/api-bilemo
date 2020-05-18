@@ -9,10 +9,14 @@ use App\Representation\Customers;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Swagger\Annotations as SWG;
+
 
 
 class CustomerController extends AbstractFOSRestController
@@ -23,7 +27,6 @@ class CustomerController extends AbstractFOSRestController
      * @param CustomerRepository $customerRepository
      * @return Customers
      *
-
      * @Rest\Get("/api/customers", name="app_customer_list")
      *
      *
@@ -36,7 +39,6 @@ class CustomerController extends AbstractFOSRestController
      * @Rest\QueryParam(
      *     name="order",
      *     requirements="asc|desc",
-
      *     default="asc",
 
      *     description="Sort order (asc or desc)."
@@ -44,7 +46,6 @@ class CustomerController extends AbstractFOSRestController
      * @Rest\QueryParam(
      *     name="limit",
      *     requirements="\d+",
-
      *     default=10,
      *     description="Max number of results per page."
      * )
@@ -53,15 +54,38 @@ class CustomerController extends AbstractFOSRestController
      *     nullable=true,
      *     requirements="\d+",
      *     default=1,
-
      *     description="The pagination offset"
      * )
      *
-
+     * @Rest\View(
      *     statusCode=200,
      *     serializerGroups={"list"}
-
      * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns list of all customers related to an authentified user",
+     *     @SWG\Schema(
+     *     type="array",
+     *     @SWG\Items(ref=@Model(type=Customer::class))
+     * )
+     * )
+     * @SWG\Parameter(
+     *     name="keyword",
+     *     in="query",
+     *     type="string",
+     *     description="Search for a username with a keyword"
+     * )
+     *
+     * @SWG\Parameter(
+     *          name="Authorization",
+     *          required=true,
+     *          in="header",
+     *          type="string",
+     *          description="Bearer Token"
+     *     )
+     *
+     * @SWG\Tag(name="Customer")
+
      */
     public function list(ParamFetcherInterface $paramFetcher, CustomerRepository $customerRepository)
     {
@@ -72,36 +96,67 @@ class CustomerController extends AbstractFOSRestController
             $paramFetcher->get('keyword'),
             $paramFetcher->get('order'),
             $paramFetcher->get('limit'),
-
             $paramFetcher->get('page')
             );
 
         $representation = new Customers($pager);
         return $representation;
-
     }
 
     /**
      * @Rest\Get(
-
      *     path = "/api/customers/{id}",
      *     name = "app_customer_show",
-
      *     requirements = {"id"="\d+"}
      * )
      *
      * @Rest\View(
-
      *     statusCode=200,
      *     serializerGroups={"show"}
      * )
+     * @SWG\Response(
+     *     response=403,
+     *     description="return when resource is not yours"
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="return when resource is not found"
+
+     * )
+     * @SWG\Response(
+     *     response=401,
+     *     description="JWT Token not found"
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns Customer details",
+     *     @SWG\Schema(
+     *     type="array",
+     *     @SWG\Items(ref=@Model(type=Customer::class))
+     * )
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="query",
+     *     type="integer",
+     *     description="id of the customer"
+     * )
+     *
+     * @SWG\Parameter(
+     *          name="Authorization",
+     *          required=true,
+     *          in="header",
+     *          type="string",
+     *          description="Bearer Token"
+     *     )
+     *
+     * @SWG\Tag(name="Customer")
      * @param Customer $customer
      * @return Customer
      */
     public function show(Customer$customer)
     {
         return $customer;
-
     }
 
 
@@ -115,26 +170,55 @@ class CustomerController extends AbstractFOSRestController
      * @throws ResourceValidationException
      * @Rest\Post(
      *     path = "/api/customers",
-
      *     name = "app_customer_create",
      * )
-
      * @ParamConverter(
      *     "customer",
      *      converter="fos_rest.request_body",
      *      options={
-
      *         "validator"={"groups"={"create"}}
-
      *     }
      * )
      *
      * @Rest\View(
      *     statusCode=Response::HTTP_CREATED,
-
      *     serializerGroups={"create"}
-
      * )
+     * @SWG\Response(
+     *     response=201,
+     *     description="add customer",
+     *     @SWG\Schema(
+     *     type="array",
+     *     @SWG\Items(ref=@Model(type=customer::class))
+     * )
+     * )
+     *
+     * @SWG\Response(
+     *     response=400,
+     *     description="Return when a violation is raised by validation"
+     * )
+     *
+     * @SWG\Parameter(
+     *          name="Authorization",
+     *          required=true,
+     *          in="header",
+     *          type="string",
+     *          description="Bearer Token"
+     *     )
+     *
+     * @SWG\Parameter(
+     *          name="Body",
+     *          required=true,
+     *          in="body",
+     *          type="string",
+     *          @SWG\Schema(
+     *             required={"email", "first_name", "last_name"},
+     *             @SWG\Property(property="email", type="string"),
+     *             @SWG\Property(property="first_name", type="string"),
+     *             @SWG\Property(property="second_name", type="string"),
+     *     ))
+     *
+     * @SWG\Tag(name="Customer")
      */
     public function create(Customer $customer, ConstraintViolationListInterface $violations)
     {
@@ -150,7 +234,6 @@ class CustomerController extends AbstractFOSRestController
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $customer->setUser($user);
-
         $entityManager->persist($customer);
 
         $entityManager->flush();
@@ -162,7 +245,6 @@ class CustomerController extends AbstractFOSRestController
      * @Rest\Delete(
      *     path = "/customers/{id}",
      *     name = "app_customer_delete",
-
      *     requirements = {"id"="\d+"}
      * )
      *
@@ -175,7 +257,6 @@ class CustomerController extends AbstractFOSRestController
         $this->denyAccessUnlessGranted('Delete', $customer);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($customer);
-
         $entityManager->flush();
 
         return new Response('Customer deleted', Response::HTTP_OK);

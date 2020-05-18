@@ -8,10 +8,50 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
 
 
+use JMS\Serializer\Annotation as Serializer;
+
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
-
+ * @Hateoas\Relation(
+ *     "list",
+ *     href=@Hateoas\Route(
+ *     "app_customer_list",
+ *     absolute=true
+ *     ),
+ * exclusion = @Hateoas\Exclusion(groups = {"show","create"})
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href=@Hateoas\Route(
+ *     "app_customer_show",
+ *     parameters={"id" = "expr(object.getId())"},
+ *     absolute=true
+ *     ),
+ * exclusion = @Hateoas\Exclusion(groups = {"list"})
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "create",
+ *     href=@Hateoas\Route(
+ *     "app_customer_create",
+ *     absolute=true
+ *     ),
+ * exclusion = @Hateoas\Exclusion(groups = {"list"})
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href=@Hateoas\Route(
+ *     "app_customer_delete",
+ *     parameters={"id" = "expr(object.getId())"},
+ *     absolute=true
+ *     ),
+ * exclusion = @Hateoas\Exclusion(groups = {"list"})
+ * )
  */
+
 class Customer
 {
     /**

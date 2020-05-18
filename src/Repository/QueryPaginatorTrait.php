@@ -21,8 +21,6 @@ trait QueryPaginatorTrait
 
 
         $pager = new Pagerfanta(new DoctrineORMAdapter($qb));
-
-
         $pager->setCurrentPage($page);
         $pager->setMaxPerPage($limit);
 

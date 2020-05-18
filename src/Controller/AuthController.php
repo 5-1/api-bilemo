@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Exception\ResourceValidationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Swagger\Annotations as SWG;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -33,6 +34,38 @@ class AuthController extends AbstractController
      * @param UserPasswordEncoderInterface $encoder
      * @return User
      * @throws ResourceValidationException
+
+     *
+     * @SWG\Response(
+     *     response=201,
+     *     description="add user",
+     *     @SWG\Schema(
+     *     type="array",
+     *     @SWG\Items(ref=@Model(type=user::class))
+     * )
+     * )
+     *
+     * @SWG\Response(
+     *     response=400,
+     *     description="Return when a violation is raised by validation"
+     * )
+     *
+     *
+     * @SWG\Parameter(
+     *          name="Body",
+     *          required=true,
+     *          in="body",
+     *          type="string",
+     *          @SWG\Schema(
+     *             required={"username", "plainPassword", "email"},
+     *             @SWG\Property(property="username", type="string"),
+     *             @SWG\Property(property="plainPassword", type="string"),
+     *             @SWG\Property(property="email", type="string"),
+     *             @SWG\Property(property="first_name", type="string"),
+     *             @SWG\Property(property="second_name", type="string"),
+     *     ))
+     *
+     * @SWG\Tag(name="User")
      */
     public function register(User $user, ConstraintViolationListInterface $violations, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
     {

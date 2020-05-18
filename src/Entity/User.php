@@ -14,7 +14,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * @Hateoas\Relation(
- *     "customer",
+ *     "customers",
  *     embedded = @Hateoas\Embedded("expr(object.getCustomers())")
  * )
  */

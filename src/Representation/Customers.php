@@ -4,13 +4,11 @@ namespace App\Representation;
 
 
 use JMS\Serializer\Annotation as Serializer;
-
 use Pagerfanta\Pagerfanta;
 use JMS\Serializer\Annotation\Type;
 class Customers
 {
     /**
-
      * @Type("array<App\Entity\Customer>")
      * @Serializer\Groups({"list"})
      */
@@ -26,14 +24,9 @@ class Customers
     {
 
         $this->data = $data->getCurrentPageResults();
-
-
-
-
         $this->addmeta('limit', $data->getMaxPerPage());
         $this->addMeta('current_items', count($data->getCurrentPageResults()));
         $this->addMeta('total_items', $data->getNbResults());
-
         $this->addMeta('offset', $data->getCurrentPage());
 
     }

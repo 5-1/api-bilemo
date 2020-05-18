@@ -3,14 +3,12 @@
 namespace App\Representation;
 
 use JMS\Serializer\Annotation as Serializer;
-
 use Pagerfanta\Pagerfanta;
 use JMS\Serializer\Annotation\Type;
 class Phones
 {
     /**
      * @Type("array<App\Entity\Phone>")
-
      * @Serializer\Groups({"list"})
      */
     public $data;

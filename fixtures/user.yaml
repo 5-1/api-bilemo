@@ -40,7 +40,7 @@ App\Entity\Customer:
     first_name: 'Alexis'
     second_name: 'Noriski'
     user: '@u1'
-    
+
   c2:
     email: 'luigi@italia.com'
     first_name: 'luigi'
