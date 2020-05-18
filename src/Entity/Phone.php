@@ -12,12 +12,26 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table()
  *
  * @Hateoas\Relation(
+ *     "brand",
+ *     embedded = @Hateoas\Embedded("expr(object.getBrand())"),
+ * exclusion = @Hateoas\Exclusion(groups = {"show"})
+ * )
+ * @Hateoas\Relation(
  *     "self",
  *     href=@Hateoas\Route(
  *     "app_phone_show",
  *     parameters={"id" = "expr(object.getId())"},
  *     absolute=true
- *     )
+ *     ),
+ * exclusion = @Hateoas\Exclusion(groups = {"show","list"})
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href=@Hateoas\Route(
+ *     "app_phone_list",
+ *     absolute=true
+ *     ),
+ * exclusion = @Hateoas\Exclusion(groups = {"show"})
  * )
  */
 class Phone
@@ -50,7 +64,7 @@ class Phone
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      * @Serializer\Groups({"show"})
      * @Serializer\Since("1.0")
      */
@@ -111,12 +125,12 @@ class Phone
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function setPrice(string $price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
 
