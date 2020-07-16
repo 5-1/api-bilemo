@@ -11,9 +11,11 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Swagger\Annotations as SWG;
 
@@ -153,6 +155,7 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Tag(name="Customer")
      * @param Customer $customer
      * @return Customer
+     * @IsGranted("Show",subject="customer")
      */
     public function show(Customer$customer)
     {
@@ -161,7 +164,6 @@ class CustomerController extends AbstractFOSRestController
 
 
     /**
-     * @param Security $security
      * @param Customer $customer
      * @param ConstraintViolationListInterface $violations
      *
@@ -189,10 +191,9 @@ class CustomerController extends AbstractFOSRestController
      *     description="add customer",
      *     @SWG\Schema(
      *     type="array",
-     *     @SWG\Items(ref=@Model(type=customer::class))
+     *     @SWG\Items(ref=@Model(type=Customer::class))
      * )
      * )
-     *
      * @SWG\Response(
      *     response=400,
      *     description="Return when a violation is raised by validation"
@@ -212,7 +213,7 @@ class CustomerController extends AbstractFOSRestController
      *          in="body",
      *          type="string",
      *          @SWG\Schema(
-     *             required={"email", "first_name", "last_name"},
+     *             required={"email", "first_name", "second_name"},
      *             @SWG\Property(property="email", type="string"),
      *             @SWG\Property(property="first_name", type="string"),
      *             @SWG\Property(property="second_name", type="string"),
@@ -222,6 +223,7 @@ class CustomerController extends AbstractFOSRestController
      */
     public function create(Customer $customer, ConstraintViolationListInterface $violations)
     {
+
         if (count($violations) > 0) {
             $message = 'The JSON sent contains invalid data. Here are the errors you need to correct: ';
             foreach ($violations as $violation) {
@@ -243,7 +245,7 @@ class CustomerController extends AbstractFOSRestController
 
     /**
      * @Rest\Delete(
-     *     path = "/customers/{id}",
+     *     path = "/api/customers/{id}",
      *     name = "app_customer_delete",
      *     requirements = {"id"="\d+"}
      * )
@@ -259,6 +261,6 @@ class CustomerController extends AbstractFOSRestController
         $entityManager->remove($customer);
         $entityManager->flush();
 
-        return new Response('Customer deleted', Response::HTTP_OK);
+        return new Response('Customer deleted', Response::HTTP_NO_CONTENT);
     }
 }
