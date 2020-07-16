@@ -19,3 +19,5 @@ fos_rest:
   param_fetcher_listener: force
   exception:
       enabled: true
+      codes:
+          'App\Exception\ResourceValidationException': 400
