@@ -4,9 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
-use JMS\Serializer\Annotation as Serializer;
-
+use Hateoas\Configuration\Annotation as Hateoas;
 
 use JMS\Serializer\Annotation as Serializer;
 
@@ -65,7 +63,7 @@ class Customer
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Email cannot be null")
+     * @Assert\NotBlank(message="Email cannot be null",groups={"create"})
      * @Serializer\Groups({"create","show"})
      * @Assert\Email(groups={"create"},
      *     message="The email '{{ value }}' is not a valid email")
@@ -77,7 +75,7 @@ class Customer
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(groups={"create"})
      * @Assert\Length(min="1", groups={"create"})
-     * @Serializer\Groups({"create","show","list"})     *
+     * @Serializer\Groups({"create","show","list"})
      */
     private $first_name;
 
