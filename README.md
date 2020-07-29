@@ -21,7 +21,7 @@ Require
 
 PHP 7 / MySQL / Apache.
 More easy if you download mamp/wamp/XAMP.
-Composer for Symfony 3.4.
+Composer for Symfony 4.4
 
 ORM
 --------------
